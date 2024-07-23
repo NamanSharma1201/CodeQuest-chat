@@ -8,17 +8,9 @@ dotenv.config();
 const port = process.env.SOCKET_PORT || 4000;
 const ioServer = createServer();
 
-const allowedOrigins = ["http://127.0.0.1:5173", "http://localhost:5173"];
-
 const io = new Server(ioServer, {
   cors: {
-    origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST"],
     credentials: true,
   },
